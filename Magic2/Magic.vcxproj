@@ -172,7 +172,7 @@
     <OutDir>.\Debug\</OutDir>
     <IntDir>.\Debug\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\oggvorbis\include;$(DXSDK_DIR)\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\oggvorbis\include;$(IncludePath);$(DXSDK_DIR)\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug VS2012|Win32'">
     <OutDir>.\Debug\</OutDir>
@@ -196,7 +196,7 @@
     <OutDir>.\Release\</OutDir>
     <IntDir>.\Release\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath);$(DXSDK_DIR)\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release VS2012|Win32'">
     <OutDir>.\Release\</OutDir>
