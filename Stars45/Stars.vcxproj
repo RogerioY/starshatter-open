@@ -323,7 +323,6 @@
       <AdditionalLibraryDirectories>$(DXSDK_DIR)\lib\x86\;..\oggvorbis\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <CustomBuildStep>
       <Command>copy /y "$(TargetPath)" "$(STARSHATTERPATH)\$(TargetFileName)"</Command>
