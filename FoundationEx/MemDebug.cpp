@@ -61,21 +61,6 @@ static HANDLE        mem_log_file = 0;
 #define CrtClrDebugField(a) _CrtSetDbgFlag(~(a) & _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG))
 #endif
 
-inline void* __cdecl operator new(unsigned int s, const char* f, int l)
-{ 
-	return ::operator new(s, 1, f, l); 
-}
-
-inline void* __cdecl operator new(unsigned int s)
-{ 
-	return ::operator new(s, 1, __FILE__, __LINE__);
-}
-
-inline void  __cdecl operator delete(void* p, const char*, int)
-{
-	::operator delete(p);
-}
-
 static void heapdump()
 {
    _HEAPINFO   hinfo;
