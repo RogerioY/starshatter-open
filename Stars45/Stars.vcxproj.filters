@@ -618,6 +618,9 @@
     <ClCompile Include="WepView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationEx\MemDebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Stars.rc">
@@ -1109,6 +1112,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WepView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationEx\MemDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

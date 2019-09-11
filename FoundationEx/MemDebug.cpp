@@ -45,7 +45,9 @@
 
 // +--------------------------------------------------------------------+
 
+#ifndef FOUNDATION_USE_MFC
 static Memory::LEVEL mem_chk_level = Memory::PERIODIC;
+#endif
 
 #ifdef _DEBUG
 static _CrtMemState  mem_chk_p1,
@@ -60,6 +62,66 @@ static HANDLE        mem_log_file = 0;
 #define CrtSetDebugField(a) _CrtSetDbgFlag((a)  | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG))
 #define CrtClrDebugField(a) _CrtSetDbgFlag(~(a) & _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG))
 #endif
+
+#ifdef FOUNDATION_USE_MFC
+
+#ifndef _DEBUG
+
+void* __cdecl operator new(unsigned int s, const char*, int)
+{ 
+	return ::operator new(s);
+}
+
+void  __cdecl operator delete(void* p, const char*, int)
+{ 
+	::operator delete(p);
+}
+
+#else
+
+// No definitions for the following:
+//void* __cdecl operator new(unsigned int s, const char*, int) {}
+//void  __cdecl operator delete(void* p, const char*, int) {}
+
+#endif
+
+#else // if not defined FOUNDATION_USE_MFC
+
+#ifndef _DEBUG
+
+void* __cdecl operator new(unsigned int s, const char*, int)
+{ 
+	return ::operator new(s);
+}
+
+void  __cdecl operator delete(void* p, const char*, int)
+{ 
+	::operator delete(p);
+}
+
+#else
+
+// No definitions for the following:
+//void* __cdecl operator new(unsigned int, int, const char*, int) {}
+
+void* __cdecl operator new(unsigned int s, const char* f, int l)
+{
+	return ::operator new(s, 1, f, l);
+}
+
+void* __cdecl operator new(unsigned int s)
+{
+	return ::operator new(s, 1, __FILE__, __LINE__);
+}
+
+void  __cdecl operator delete(void* p, const char*, int)
+{
+	::operator delete(p);
+}
+
+#endif _DEBUG
+
+#endif FOUNDATION_USE_MFC
 
 static void heapdump()
 {
@@ -107,6 +169,7 @@ static void heapdump()
 
 // +--------------------------------------------------------------------+
 
+#ifndef FOUNDATION_USE_MFC
 void
 Memory::OpenLog(const char* filename)
 {
@@ -233,4 +296,6 @@ Memory::SetLevel(LEVEL l)
    }
 #endif   
 }
+
+#endif
 

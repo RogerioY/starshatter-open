@@ -543,6 +543,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\FoundationEx\MemDebug.cpp" />
     <ClCompile Include="HttpClient.cpp" />
     <ClCompile Include="HttpServer.cpp" />
     <ClCompile Include="HttpServlet.cpp" />
@@ -559,6 +560,7 @@
     <ClCompile Include="NetSock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\FoundationEx\MemDebug.h" />
     <ClInclude Include="HttpClient.h" />
     <ClInclude Include="HttpServer.h" />
     <ClInclude Include="HttpServlet.h" />

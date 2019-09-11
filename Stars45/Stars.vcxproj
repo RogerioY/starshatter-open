@@ -813,6 +813,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\FoundationEx\MemDebug.cpp" />
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="AudDlg.cpp" />
     <ClCompile Include="AudioConfig.cpp" />
@@ -1033,6 +1034,7 @@
     <ResourceCompile Include="Stars.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\FoundationEx\MemDebug.h" />
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="AudDlg.h" />
     <ClInclude Include="AudioConfig.h" />

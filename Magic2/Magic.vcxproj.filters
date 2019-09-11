@@ -315,6 +315,9 @@
     <ClCompile Include="Locale_ss.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationEx\MemDebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Magic.rc">
@@ -401,6 +404,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Locale_ss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationEx\MemDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -699,6 +699,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\FoundationEx\MemDebug.cpp" />
     <ClCompile Include="..\nGenEx\ActiveWindow.cpp" />
     <ClCompile Include="AlphaInverse.cpp" />
     <ClCompile Include="AlphaPalette.cpp" />
@@ -825,6 +826,7 @@
     <ResourceCompile Include="Magic.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\FoundationEx\MemDebug.h" />
     <ClInclude Include="..\nGenEx\AviFile.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="ContentBundle.h" />

@@ -51,8 +51,8 @@
 
 #ifndef _DEBUG
 
-inline void* __cdecl operator new(unsigned int s, const char*, int) { return ::operator new(s);    }
-inline void  __cdecl operator delete(void* p, const char*, int)     {        ::operator delete(p); }
+void* __cdecl operator new(unsigned int s, const char*, int);
+void  __cdecl operator delete(void* p, const char*, int);
 
 #else
 
@@ -89,21 +89,18 @@ public:
 
 #ifndef _DEBUG
 
-inline void* __cdecl operator new(unsigned int s, const char*, int) { return ::operator new(s);    }
-inline void  __cdecl operator delete(void* p, const char*, int)     {        ::operator delete(p); }
+void* __cdecl operator new(unsigned int s, const char*, int);
+void  __cdecl operator delete(void* p, const char*, int);
 
 #else
 /*_CRTIMP*/
 void* __cdecl operator new(unsigned int, int, const char*, int);
 
-inline void* __cdecl operator new(unsigned int s, const char* f, int l)
-        { return ::operator new(s, 1, f, l); }
+void* __cdecl operator new(unsigned int s, const char* f, int l);
 
-inline void* __cdecl operator new(unsigned int s)
-        { return ::operator new(s, 1, __FILE__, __LINE__); }
+void* __cdecl operator new(unsigned int s);
 
-inline void  __cdecl operator delete(void* p, const char*, int)
-        {        ::operator delete(p); }
+void  __cdecl operator delete(void* p, const char*, int);
 
 #endif _DEBUG
 
