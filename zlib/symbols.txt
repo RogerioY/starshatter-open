@@ -1,0 +1,6 @@
+Microsoft (R) COFF/PE Dumper Version 14.16.27031.1
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file zlibstatic.lib
+LINK : fatal error LNK1181: cannot open input file 'zlibstatic.lib'
