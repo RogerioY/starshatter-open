@@ -5,6 +5,7 @@ VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Magic", "..\Magic2\Magic.vcxproj", "{E58F13BF-6D5C-D139-8404-2E94F34E11D0}"
 	ProjectSection(ProjectDependencies) = postProject
+		{745DEC58-EBB3-47A9-A9B8-4C6627C01BF8} = {745DEC58-EBB3-47A9-A9B8-4C6627C01BF8}
 		{574D6A73-F38F-30E0-0F30-64AD0378B426} = {574D6A73-F38F-30E0-0F30-64AD0378B426}
 		{86C01EAC-2406-40A7-B744-AA858B7607A9} = {86C01EAC-2406-40A7-B744-AA858B7607A9}
 		{552BEAB0-D371-E491-5C0E-ADA78BA2FDD7} = {552BEAB0-D371-E491-5C0E-ADA78BA2FDD7}
@@ -14,6 +15,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetEx", "..\NetEx\NetEx.vcxproj", "{574D6A73-F38F-30E0-0F30-64AD0378B426}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nGenEx", "..\nGenEx\nGenEx.vcxproj", "{CADEA3B5-84A7-C4F6-9F8E-093FD371A4A1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{745DEC58-EBB3-47A9-A9B8-4C6627C01BF8} = {745DEC58-EBB3-47A9-A9B8-4C6627C01BF8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Opcode", "..\Opcode\Opcode.vcxproj", "{552BEAB0-D371-E491-5C0E-ADA78BA2FDD7}"
 EndProject
@@ -26,8 +30,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stars", "..\Stars45\Stars.v
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libpng", "..\libpng\libpng.vcxproj", "{86C01EAC-2406-40A7-B744-AA858B7607A9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{745DEC58-EBB3-47A9-A9B8-4C6627C01BF8} = {745DEC58-EBB3-47A9-A9B8-4C6627C01BF8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Datafile", "..\Datafile\Datafile.vcxproj", "{ADBA4106-AFE3-43D2-88D9-308A7D75E372}"
+	ProjectSection(ProjectDependencies) = postProject
+		{745DEC58-EBB3-47A9-A9B8-4C6627C01BF8} = {745DEC58-EBB3-47A9-A9B8-4C6627C01BF8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlibstat", "..\zlib\contrib\vstudio\vc14\zlibstat.vcxproj", "{745DEC58-EBB3-47A9-A9B8-4C6627C01BF8}"
 EndProject
