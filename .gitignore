@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Starshatter project-specific files. Please retain these if you update the rest of this file.
+libpng/Debug/libpng.lib
+libpng/Release/libpng.lib
+zlib/Debug/Zlib.lib
+zlib/Release/Zlib.lib
+
 # User-specific files
 *.rsuser
 *.suo
