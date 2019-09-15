@@ -194,6 +194,7 @@
     <IntDir>.\Debug\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>..\Opcode;$(IncludePath)</IncludePath>
+    <TargetName>$(ProjectName)_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug VS2012|Win32'">
     <OutDir>.\Debug\</OutDir>
@@ -207,6 +208,7 @@
     <IntDir>.\Debug\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>..\Opcode;$(IncludePath)</IncludePath>
+    <TargetName>$(ProjectName)_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug VS2012|x64'">
     <OutDir>.\Debug\</OutDir>
@@ -252,7 +254,7 @@
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;OPCODE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
       <BrowseInformation>true</BrowseInformation>
