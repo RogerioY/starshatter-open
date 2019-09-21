@@ -682,19 +682,17 @@ ShipDesign::LoadCatalog(const char* path, const char* fname, bool mod)
     DataLoader* loader = DataLoader::GetLoader();
     loader->SetDataPath(path);
 
-    char filename[NAMELEN];
-    ZeroMemory(filename, NAMELEN);
-    strncpy(filename, fname, NAMELEN-1);
+    const Text filename(fname, NAMELEN);
 
-    Print("Loading ship design catalog: %s%s\n", path, filename);
+    Print("Loading ship design catalog: %s%s\n", path, filename.data());
 
     BYTE* block;
-    int blocklen = loader->LoadBuffer(filename, block, true);
+    int blocklen = loader->LoadBuffer(filename.data(), block, true);
     Parser parser(new(__FILE__,__LINE__) BlockReader((const char*) block, blocklen));
     Term*  term = parser.ParseTerm();
 
     if (!term) {
-        Print("ERROR: could not parse '%s'\n", filename);
+        Print("ERROR: could not parse '%s'\n", filename.data());
         loader->ReleaseBuffer(block);
         loader->SetDataPath(0);
         return result;
@@ -702,7 +700,7 @@ ShipDesign::LoadCatalog(const char* path, const char* fname, bool mod)
     else {
         TermText* file_type = term->isText();
         if (!file_type || file_type->value() != "SHIPCATALOG") {
-            Print("ERROR: invalid ship catalog file '%s'\n", filename);
+            Print("ERROR: invalid ship catalog file '%s'\n", filename.data());
             loader->ReleaseBuffer(block);
             loader->SetDataPath(0);
             return result;
@@ -729,23 +727,23 @@ ShipDesign::LoadCatalog(const char* path, const char* fname, bool mod)
                         defname.setSensitive(false);
 
                         if (defname == "name") {
-                            if (!GetDefText(name, pdef, filename))
-                            Print("WARNING: invalid or missing ship name in '%s'\n", filename);
+                            if (!GetDefText(name, pdef, filename.data()))
+                            Print("WARNING: invalid or missing ship name in '%s'\n", filename.data());
                         }
                         else if (defname == "type") {
-                            if (!GetDefText(type, pdef, filename))
-                            Print("WARNING: invalid or missing ship type in '%s'\n", filename);
+                            if (!GetDefText(type, pdef, filename.data()))
+                            Print("WARNING: invalid or missing ship type in '%s'\n", filename.data());
                         }
                         else if (defname == "path") {
-                            if (!GetDefText(path, pdef, filename))
-                            Print("WARNING: invalid or missing ship path in '%s'\n", filename);
+                            if (!GetDefText(path, pdef, filename.data()))
+                            Print("WARNING: invalid or missing ship path in '%s'\n", filename.data());
                         }
                         else if (defname == "file") {
-                            if (!GetDefText(fname, pdef, filename))
-                            Print("WARNING: invalid or missing ship file in '%s'\n", filename);
+                            if (!GetDefText(fname, pdef, filename.data()))
+                            Print("WARNING: invalid or missing ship file in '%s'\n", filename.data());
                         }
                         else if (defname == "hide" || defname == "secret") {
-                            GetDefBool(hide, pdef, filename);
+                            GetDefBool(hide, pdef, filename.data());
                         }
                     }
                 }
@@ -758,7 +756,7 @@ ShipDesign::LoadCatalog(const char* path, const char* fname, bool mod)
                 result++;
             }
             else {
-                Print("WARNING: term ignored in '%s'\n", filename);
+                Print("WARNING: term ignored in '%s'\n", filename.data());
                 term->print();
             }
         }
