@@ -153,10 +153,10 @@ protected:
     virtual bool   IsAlpha(char c);
 
     Reader*     reader;
-    char*       str;
+    Text       str;
 
-    const char* p;
-    const char* eos;
+    size_t p;
+    size_t eos;
 
     size_t      index;
     size_t      old_index;

@@ -312,30 +312,25 @@ Token::describe(const Text& tok)
 // +-------------------------------------------------------------------+
 
 Scanner::Scanner(Reader* r)
-    : reader(r), str(0), index(0), old_index(0),
+	: reader(r), str('\0'), index(0), old_index(0),
       length(0), line(0), old_line(0), lineStart(0)
 { }
 
 Scanner::Scanner(const Scanner& rhs)
     : index(rhs.index), old_index(rhs.old_index), length(rhs.length),
-      reader(rhs.reader),
+      reader(rhs.reader), str(rhs.str),
       line(rhs.line), old_line(0), lineStart(rhs.lineStart)
 {
-    str = new(__FILE__, __LINE__) char [strlen(rhs.str) + 1];
-    strcpy(str, rhs.str);
 }
 
 Scanner::Scanner(const Text& s)
-    : reader(0), index(0), old_index(0), length(s.length()), line(0),
+    : reader(0), str(s), index(0), old_index(0), length(s.length()), line(0),
       old_line(0), lineStart(0)
 {
-    str = new(__FILE__, __LINE__) char [s.length() + 1];
-    strcpy(str, s.data());
 }
 
 Scanner::~Scanner()
 {
-    delete [] str;
 }
 
 // +-------------------------------------------------------------------+
@@ -343,9 +338,7 @@ Scanner::~Scanner()
 Scanner&
 Scanner::operator = (const Scanner& rhs)
 {
-    delete [] str;
-    str = new(__FILE__, __LINE__) char [strlen(rhs.str) + 1];
-    strcpy(str, rhs.str);
+    str = rhs.str;
     
     index     = rhs.index;
     old_index = rhs.old_index;
@@ -362,10 +355,7 @@ Scanner::operator = (const Scanner& rhs)
 void
 Scanner::Load(const Text& s)
 {
-    delete [] str;
-    str = new(__FILE__, __LINE__) char [s.length() + 1];
-    strcpy(str, s.data());
-    
+    str = s;
     index       = 0;
     old_index   = 0;
     best        = Token();
@@ -384,8 +374,8 @@ Scanner::Get(Need need)
     old_index  = index;
     old_line   = line;
 
-    eos = str + length;
-    p   = str + index;
+    eos = str.length();
+    p   = index;
 
     if (p >= eos) {
         if (need == Demand && reader) {
@@ -396,10 +386,10 @@ Scanner::Get(Need need)
         return Token("", type, 0, line, 0);
     }
 
-    while (isspace(*p) && p < eos) { // skip initial white space
-        if (*p == '\n') {
+    while ( p < eos && isspace(str[p]) ) { // skip initial white space
+        if (str[p] == '\n') {
             line++;
-            lineStart = p - str;
+            lineStart = p;
         }
         p++;
     }
@@ -414,17 +404,17 @@ Scanner::Get(Need need)
     }
 
     Token  result;
-    size_t start = p - str;
+    size_t start = p;
 
-    if (*p == '"' || *p == '\'') {   // special case for quoted tokens
+    if (str[p] == '"' || str[p] == '\'') {   // special case for quoted tokens
 
-        if (*p == '"') type = Token::StringLiteral;
+        if (str[p] == '"') type = Token::StringLiteral;
         else           type = Token::CharLiteral;
 
-        char match = *p;
+        char match = str[p];
         while (++p < eos) {
-            if (*p == match) {         // find matching quote
-                if (*(p-1) != '\\') {   // if not escaped
+            if (str[p] == match) {         // find matching quote
+                if (str[p-1] != '\\') {   // if not escaped
                     p++;                 // token includes matching quote
                     break;
                 }
@@ -433,12 +423,12 @@ Scanner::Get(Need need)
     }
     
     // generic delimited comments
-    else if (*p == Token::comBeg(0) &&
-                     (!Token::comBeg(1) || *(p+1) == Token::comBeg(1))) {
+    else if (str[p] == Token::comBeg(0) &&
+                     (!Token::comBeg(1) || str[p+1] == Token::comBeg(1))) {
         type = Token::Comment;
         while (++p < eos) {
-            if (*p == Token::comEnd(0) &&
-                      (!Token::comEnd(1) || *(p+1) == Token::comEnd(1))) {
+            if (str[p] == Token::comEnd(0) &&
+                      (!Token::comEnd(1) || str[p+1] == Token::comEnd(1))) {
                 p++; if (Token::comEnd(1)) p++;
                 break;
             }
@@ -446,43 +436,43 @@ Scanner::Get(Need need)
     }
 
     // alternate form delimited comments
-    else if (*p == Token::altBeg(0) &&
-                     (!Token::altBeg(1) || *(p+1) == Token::altBeg(1))) {
+    else if (str[p] == Token::altBeg(0) &&
+                     (!Token::altBeg(1) || str[p+1] == Token::altBeg(1))) {
         type = Token::Comment;
         while (++p < eos) {
-            if (*p == Token::altEnd(0) &&
-                      (!Token::altEnd(1) || *(p+1) == Token::altEnd(1))) {
+            if (str[p] == Token::altEnd(0) &&
+                      (!Token::altEnd(1) || str[p+1] == Token::altEnd(1))) {
                 p++; if (Token::altEnd(1)) p++;
                 break;
             }
         }
     }
 
-    else if (*p == '.')  type = Token::Dot;
-    else if (*p == ',')  type = Token::Comma;
-    else if (*p == ';')  type = Token::Semicolon;
-    else if (*p == '(')  type = Token::LParen;
-    else if (*p == ')')  type = Token::RParen;
-    else if (*p == '[')  type = Token::LBracket;
-    else if (*p == ']')  type = Token::RBracket;
-    else if (*p == '{')  type = Token::LBrace;
-    else if (*p == '}')  type = Token::RBrace;
+    else if (str[p] == '.')  type = Token::Dot;
+    else if (str[p] == ',')  type = Token::Comma;
+    else if (str[p] == ';')  type = Token::Semicolon;
+    else if (str[p] == '(')  type = Token::LParen;
+    else if (str[p] == ')')  type = Token::RParen;
+    else if (str[p] == '[')  type = Token::LBracket;
+    else if (str[p] == ']')  type = Token::RBracket;
+    else if (str[p] == '{')  type = Token::LBrace;
+    else if (str[p] == '}')  type = Token::RBrace;
 
     // use lexical sub-parser for ints and floats
-    else if (isdigit(*p))
+    else if (isdigit(str[p]))
         type = GetNumeric();
     
-    else if (IsSymbolic(*p)) {
+    else if (IsSymbolic(str[p])) {
         type = Token::SymbolicIdent;
-        while (IsSymbolic(*p)) p++;
+        while (IsSymbolic(str[p])) p++;
     }
     
     else {
         type = Token::AlphaIdent;
-        while (IsAlpha(*p)) p++;
+        while (IsAlpha(str[p])) p++;
     }
 
-    size_t extent = (p - str) - start;
+    size_t extent = p - start;
 
     if (extent < 1) extent = 1;      // always get at least one character
 
@@ -490,15 +480,12 @@ Scanner::Get(Need need)
     int col = start - lineStart;
     if (line == 0) col++;
     
-    char* buf = new(__FILE__, __LINE__) char [extent + 1];
-    strncpy(buf, str + start, extent);
-    buf[extent] = '\0';
+    Text buf = str.substring(start, extent);
 
     if (type == Token::Comment && Token::hidecom) {
-        delete [] buf;
         if (Token::comEnd(0) == '\n') {
             line++;
-            lineStart = p - str;
+            lineStart = p;
         }
         return Get(need);
     }
@@ -506,7 +493,7 @@ Scanner::Get(Need need)
     if (type == Token::AlphaIdent || // check for keyword
          type == Token::SymbolicIdent) {
          int val;
-         if (Token::findKey(Text(buf), val))
+         if (Token::findKey(buf, val))
             result = Token(buf, Token::Keyword, val, line+1, col);
     }
 
@@ -517,7 +504,6 @@ Scanner::Get(Need need)
         (line+1 == (size_t) best.mLine && col > best.mColumn))
         best = result;
 
-    delete [] buf;
     return result;
 }
 
@@ -528,23 +514,23 @@ Scanner::GetNumeric()
 {
     int type = Token::IntLiteral;             // assume int
 
-    if (*p == '0' && *(p+1) == 'x') {         // check for hex:
+    if (str[p] == '0' && str[p+1] == 'x') {         // check for hex:
         p += 2;
-        while (isxdigit(*p)) p++;
+        while (isxdigit(str[p])) p++;
         return type;
     }
 
-    while (isdigit(*p) || *p == '_') p++;     // whole number part
+    while (isdigit(str[p]) || str[p] == '_') p++;     // whole number part
     
-    if (*p == '.') { p++;                     // optional fract part
+    if (str[p] == '.') { p++;                     // optional fract part
         type = Token::FloatLiteral;            // implies float
 
-        while (isdigit(*p) || *p == '_') p++;  // fractional part
+        while (isdigit(str[p]) || str[p] == '_') p++;  // fractional part
     }
 
-    if (*p == 'E' || *p == 'e') {  p++;       // optional exponent
-        if (*p == '+' || *p == '-') p++;       // which may be signed
-        while (isdigit(*p)) p++;
+    if (str[p] == 'E' || str[p] == 'e') {  p++;       // optional exponent
+        if (str[p] == '+' || str[p] == '-') p++;       // which may be signed
+        while (isdigit(str[p])) p++;
 
         type = Token::FloatLiteral;            // implies float
     }
@@ -557,7 +543,7 @@ Scanner::GetNumeric()
 bool
 Scanner::IsAlpha(char c)
 {
-    return (isalpha(*p) || isdigit(*p) || (*p == '_'))?true:false;
+    return (isalpha(str[p]) || isdigit(str[p]) || (str[p] == '_'))?true:false;
 }
 
 // +-------------------------------------------------------------------+
