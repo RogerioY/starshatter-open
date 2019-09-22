@@ -122,6 +122,7 @@ public:
     static const char*   PriorityName(int p);
 
     const char*       RegionName()      const { return rgn_name;   }
+    const Text&       RegionNameText()  const { return rgn_name;   }
     SimRegion*        Region()          const { return region;     }
     Point             Location()        const;
     RLoc&             GetRLoc()               { return rloc;       }
@@ -136,6 +137,7 @@ public:
     double            HoldTime()        const { return hold_time;  }
 
     const char*       TargetName()      const { return tgt_name;   }
+    const Text&       TargetNameText()  const { return tgt_name;   }
     const char*       TargetDesc()      const { return tgt_desc;   }
     SimObject*        GetTarget();
 
