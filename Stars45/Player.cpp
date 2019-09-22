@@ -1182,20 +1182,17 @@ Player::Save()
             Text stat_data = p->EncodeStats();
 
             if (stat_data.length() > 32) {
-                char tmp[64];
                 int  len = stat_data.length();
 
                 for (int n = 0; n < len; n += 32) {
-                    ZeroMemory(tmp, sizeof(tmp));
-                    const char* p = stat_data.data() + n;
-                    strncpy(tmp, p, 32);
+                    const Text tmp = stat_data.substring( n, 32 );
 
                     if (n == 0)
-                    fprintf(f, "   stats:         \"%s\"\n",  tmp);
+                    fprintf(f, "   stats:         \"%s\"\n",  tmp.data());
                     else if (n < len-32)
-                    fprintf(f, "                  \"%s\"\n", tmp);
+                    fprintf(f, "                  \"%s\"\n", tmp.data());
                     else
-                    fprintf(f, "                  \"%s\",\n", tmp);
+                    fprintf(f, "                  \"%s\",\n", tmp.data());
                 }
             }
 
