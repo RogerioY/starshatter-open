@@ -670,8 +670,7 @@ NetObjHyper::Pack()
     *f++     = (float)  location.y;  // bytes 16 - 19
     *f++     = (float)  location.z;  // bytes 20 - 23
 
-    char*  p = (char*)  (data + 24);
-    strncpy(p, region.data(), 31);
+    NetDataUtils::PackText(data + 24, region, 31);
 
     return data;
 }
@@ -941,11 +940,11 @@ NetCommMsg::Pack()
         char*  p = (char*)  (data + 22);
 
         Element* dst_elem = radio_message->DestinationElem();
-        if (dst_elem)
-        strncpy(p, dst_elem->Name().data(), 31);
+        if (dst_elem) {
+			NetDataUtils::PackText(data + 22, dst_elem->Name(), 31);
+        }
 
-        p = (char*) (data + 55);
-        strncpy(p, radio_message->Info().data(), 128);
+        NetDataUtils::PackText(data + 55, radio_message->Info(), 128);
 
         data[SIZE-1] = 0;
     }
@@ -1035,11 +1034,9 @@ NetChatMsg::Pack()
     data[2] = (BYTE) ((dstid & 0xff00) >> 8);
     data[3] = (BYTE) ((dstid & 0x00ff)     );
 
-    char*  p = (char*)  (data + HDR_LEN);
-    strncpy(p, name.data(), NAME_LEN);
+    NetDataUtils::PackText(data + HDR_LEN, name, NAME_LEN);
 
-    p = (char*)  (data + HDR_LEN + NAME_LEN);
-    strncpy(p, text.data(), chatlen);
+    NetDataUtils::PackText(data + HDR_LEN + NAME_LEN, text, chatlen);
 
     return data;
 }
@@ -1082,7 +1079,7 @@ NetElemRequest::Pack()
     data[0] = TYPE;
     data[1] = SIZE;
 
-    strncpy((char*) (data +   8), name.data(),      NAME_LEN-1);
+    NetDataUtils::PackText(data + 8, name, NAME_LEN - 1);
 
     return data;
 }
@@ -1151,10 +1148,10 @@ NetElemCreate::Pack()
     for (int i = 0; i < 16; i++)
     data[6+i] = (BYTE) load[i];
 
-    strncpy((char*) (data +  22), name.data(),      NAME_LEN-1);
-    strncpy((char*) (data +  54), commander.data(), NAME_LEN-1);
-    strncpy((char*) (data +  86), objective.data(), NAME_LEN-1);
-    strncpy((char*) (data + 118), carrier.data(),   NAME_LEN-1);
+    NetDataUtils::PackText(data + 22, name, NAME_LEN - 1);
+    NetDataUtils::PackText(data + 54, commander, NAME_LEN - 1);
+    NetDataUtils::PackText(data + 86, objective, NAME_LEN - 1);
+    NetDataUtils::PackText(data + 118, carrier, NAME_LEN - 1);
 
     data[150] = (BYTE) squadron;
     data[151] = (BYTE) slots[0];
@@ -1304,9 +1301,9 @@ NetNavData::Pack()
     data[32] = (BYTE) ((tgtid & 0xff00) >> 8);
     data[33] = (BYTE) ((tgtid & 0x00ff)     );
 
-    strncpy((char*) (data +  34), navpoint->RegionName(), NAME_LEN-1);
-    strncpy((char*) (data +  66), navpoint->TargetName(), NAME_LEN-1);
-    strncpy((char*) (data +  98), elem.data(),            NAME_LEN-1);
+    NetDataUtils::PackText(data + 34, navpoint->RegionNameText(), NAME_LEN - 1);
+    NetDataUtils::PackText(data + 66, navpoint->TargetNameText(), NAME_LEN - 1);
+    NetDataUtils::PackText(data + 98, elem, NAME_LEN - 1);
 
     return data;
 }
@@ -1414,7 +1411,7 @@ NetNavDelete::Pack()
     data[ 3] = (BYTE) ((objid & 0x00ff)     );
     data[ 4] = (BYTE) index;
 
-    strncpy((char*) (data + 6), elem.data(), 31);
+    NetDataUtils::PackText(data + 6, elem, 31);
 
     return data;
 }
@@ -1474,4 +1471,10 @@ NetSelfDestruct::Unpack(const BYTE* p)
     }
 
     return false;
+}
+
+void NetDataUtils::PackText(BYTE* data, const Text& text, size_t count)
+{
+	char* p = (char*)(data);
+	strncpy(p, text.data(), count);
 }

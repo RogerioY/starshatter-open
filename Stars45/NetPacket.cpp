@@ -326,7 +326,7 @@ NetPacket::SetName(const char* name)
 {
     if (msg && msg->Length() >= JOIN_REQ_SIZE) {
         BYTE* data = (BYTE*) msg->Data()+20;
-        strncpy((char*) data, name, 32);
+        NetDataUtils::PackText(data, Text(name), 32);
     }
 }
 
@@ -349,7 +349,7 @@ NetPacket::SetDesign(const char* design)
 {
     if (msg && msg->Length() >= JOIN_REQ_SIZE) {
         BYTE* data = (BYTE*) msg->Data()+52;
-        strncpy((char*) data, design, 32);
+        NetDataUtils::PackText(data, Text(design), 32);
     }
 }
 
@@ -372,7 +372,7 @@ NetPacket::SetRegion(const char* rgn_name)
 {
     if (msg && msg->Length() >= JOIN_REQ_SIZE) {
         BYTE* data = (BYTE*) msg->Data()+84;
-        strncpy((char*) data, rgn_name, 32);
+        NetDataUtils::PackText(data, Text(rgn_name), 32);
     }
 }
 

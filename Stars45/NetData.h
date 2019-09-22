@@ -91,6 +91,14 @@ class Ship;
 
 // +--------------------------------------------------------------------+
 
+class NetDataUtils
+{
+public:
+	static void PackText(BYTE* data, const Text& text, size_t count);
+};
+
+// +--------------------------------------------------------------------+
+
 class NetData
 {
 public:
